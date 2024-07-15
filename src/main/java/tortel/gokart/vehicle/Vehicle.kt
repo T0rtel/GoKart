@@ -1,11 +1,10 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.ItemDisplay
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 import java.util.*

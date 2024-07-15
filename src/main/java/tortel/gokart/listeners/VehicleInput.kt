@@ -1,10 +1,10 @@
-package tortel.gokart.Listeners
+package tortel.gokart.listeners
 
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.events.PacketAdapter
 import com.comphenix.protocol.events.PacketEvent
 import org.bukkit.plugin.Plugin
-import tortel.gokart.Vehicle.VehicleUtils
+import tortel.gokart.vehicle.VehicleUtils
 
 
 class VehicleInput(plugin : Plugin) : PacketAdapter(params().plugin(plugin).types(PacketType.Play.Client.STEER_VEHICLE)) {

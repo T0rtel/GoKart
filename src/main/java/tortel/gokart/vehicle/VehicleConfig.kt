@@ -1,8 +1,6 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
-import org.bukkit.OfflinePlayer
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.entity.Player
 import tortel.gokart.Main
 import java.io.File
 

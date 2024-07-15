@@ -4,15 +4,15 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.comphenix.protocol.ProtocolManager
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
-import tortel.gokart.Commands.RideCommand
-import tortel.gokart.Listeners.VehicleInput
-import tortel.gokart.Vehicle.VehicleConfig
-import tortel.gokart.Vehicle.VehicleUtils
+import tortel.gokart.commands.RideCommand
+import tortel.gokart.listeners.VehicleInput
+import tortel.gokart.tabCompleters.RideCommandTabCompleter
+import tortel.gokart.vehicle.VehicleConfig
+import tortel.gokart.vehicle.VehicleUtils
 import java.io.File
 
 
@@ -34,10 +34,11 @@ class Main : JavaPlugin() {
         dataFolderDir = dataFolder
         instance = this
 
-        loadConfigs() //loads config
+        loadConfigs()
         registerEvents()
         registerCommands()
         setupVehicleTickSystem()
+        registerTabCompleters()
     }
 
     override fun onDisable() {
@@ -45,22 +46,26 @@ class Main : JavaPlugin() {
         removeAllItemDisplays()
     }
 
-    fun registerCommands(){
+    private fun registerCommands(){
         getCommand("ride")?.setExecutor(RideCommand())
     }
 
-    fun registerEvents(){
+    private fun registerTabCompleters(){
+        getCommand("ride")?.tabCompleter = RideCommandTabCompleter()
+    }
+
+    private fun registerEvents(){
         //pluginmanager.registerEvents(PlayerMoveEvent(), this)
     }
 
-    fun loadConfigs(){
+    private fun loadConfigs(){
         VehicleConfig.load()
     }
-    fun unloadConfigs(){
+    private fun unloadConfigs(){
         VehicleConfig.save()
     }
 
-    fun removeAllItemDisplays(){
+    private fun removeAllItemDisplays(){
         Bukkit.getWorlds()[0].entities.forEach {
             if (it.type == EntityType.ARMOR_STAND){
                 it.remove()
@@ -68,7 +73,7 @@ class Main : JavaPlugin() {
         }
     }
 
-    fun setupVehicleTickSystem(){
+    private fun setupVehicleTickSystem(){
         object : BukkitRunnable() {
             override fun run() {
 

@@ -1,12 +1,10 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.ArmorStand
 
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import kotlin.math.sqrt
-import kotlin.time.times
 
 object VehicleUtils {
     var licenseplates : List<String> = listOf<String>()
