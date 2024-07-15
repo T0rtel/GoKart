@@ -89,8 +89,8 @@ class Main : JavaPlugin() {
                         }
 
                          */
-                        VehicleUtils.vehicleVelocities[it.name] = Vector() // this should fix it ig(hopefully)
-//e
+                        VehicleUtils.vehiclesSpeeds[it.name] = Vector() // this should fix it ig(hopefully)
+
                     }
 
                     VehicleUtils.playersAccelerating[it] = false
