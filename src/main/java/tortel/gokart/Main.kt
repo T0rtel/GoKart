@@ -34,7 +34,7 @@ class Main : JavaPlugin() {
         dataFolderDir = dataFolder
         instance = this
 
-        loadConfigs() //loads configs
+        loadConfigs() //loads config
         registerEvents()
         registerCommands()
         setupVehicleTickSystem()
