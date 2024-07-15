@@ -27,7 +27,7 @@ object VehicleUtils {
 
          */
         //the createvehicle function, which takes all the values and creates an armor stand
-        Vehicle.CreateVehicle(//e
+        Vehicle.CreateVehicle(
             plr,
             plr.uniqueId,
             2.0,

@@ -68,7 +68,7 @@ object Vehicle {
     }
 
     //function to save all the data into the maps in VehicleUtils.kt
-    fun createVehicleData(plr : Player, list : List<Any>) {//e
+    fun createVehicleData(plr : Player, list : List<Any>) {
         VehicleUtils.vehiclesData[plr.name] = list
         VehicleUtils.vehicleVelocities[plr.name] = Vector(1.0, 0.0, 1.0) // initialize speed
         //println("${VehicleUtils.vehiclesData}")
