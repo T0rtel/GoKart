@@ -9,7 +9,7 @@ import org.bukkit.util.Vector
 object VehicleUtils {
     var licenseplates : List<String> = listOf<String>()
     val vehiclesData : HashMap<String, List<Any>> = HashMap()
-    val vehiclesSpeeds : HashMap<String, Vector> = HashMap()
+    val vehicleVelocities : HashMap<String, Vector> = HashMap()
     val playersAccelerating : HashMap<Player, Boolean> = HashMap()
 
     fun spawnVehicle(plr : Player){ // in here we initialize the vehicle properties and spawn the armor stand(for now)
@@ -26,7 +26,7 @@ object VehicleUtils {
         )
 
          */
-
+        //the createvehicle function, which takes all the values and creates an armor stand
         Vehicle.CreateVehicle(
             plr,
             plr.uniqueId,
@@ -56,7 +56,7 @@ object VehicleUtils {
         var DragForce : Vector? = null
         var RollingResForce : Vector? = null
         var LongitudinalForce : Vector? = null
-        var velocity : Vector = vehiclesSpeeds[plr.name]!!
+        var velocity : Vector = vehicleVelocities[plr.name]!!
         var speed = Math.sqrt(velocity.x *velocity.x + velocity.z*velocity.z)
 
         println("old velocity X: ${velocity.x}")
@@ -83,7 +83,7 @@ object VehicleUtils {
         val acceleration = Vector(LongitudinalForce.x / Mass, 0.0, LongitudinalForce.z / Mass)
         velocity = Vector(velocity.x + (DeltaTime * acceleration.x), 0.0, velocity.z +(DeltaTime * acceleration.z))
 
-        vehiclesSpeeds[plr.name] = velocity // every tick we are saving the last velocity, and when the player stops holding W for ex, it resets it(that is in Main)
+        vehicleVelocities[plr.name] = velocity // every tick we are saving the last velocity, and when the player stops holding W for ex, it resets it(that is in Main)
 
         //Vehicle.teleport(VehiclePos.add(velocity))
         Vehicle.velocity = velocity

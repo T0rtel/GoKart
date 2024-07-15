@@ -37,17 +37,18 @@ object Vehicle {
         DragConstant : Double,
         RollingResistanceConstant : Double,
         BrakingConstant : Double){
-        //then create the armor stand
-        val ownerPosition = plr.location // the ? is for if the Bukkit.getPlayer(owner) is nill(not there)
+        //armor stand creation:
+        val ownerPosition = plr.location // plr location
+        //spawn the armor stand
         val newVehicle = plr.world.spawnEntity(ownerPosition.add(Vector(0.0,0.0,0.0)), EntityType.ARMOR_STAND) as ArmorStand
-
+        //set all its needed properties
         newVehicle.isInvulnerable = true
         newVehicle.isInvisible = true
-        //newVehicle.setGravity(false)
-        newVehicle.addPassenger(plr)
         newVehicle.isCustomNameVisible = false
+        //make the player sit on armor stand
+        newVehicle.addPassenger(plr)
         newVehicle.customName(Component.text("$owner"))
-        //in here we just set the vehicle data n stuff this looks scuffed ik
+        //in here we just set the vehicle data so we can save it when we want to get the owner for ex
         val list : List<Any> = listOf(
             "$owner",
             EngineForce,
@@ -66,10 +67,11 @@ object Vehicle {
         createVehicleData(plr, list)
     }
 
-    fun createVehicleData(plr : Player, list : List<Any>) { //vehicle: MutableMap<Any, Any>
+    //function to save all the data into the maps in VehicleUtils.kt
+    fun createVehicleData(plr : Player, list : List<Any>) {
         VehicleUtils.vehiclesData[plr.name] = list
-        VehicleUtils.vehiclesSpeeds[plr.name] = Vector(1.0, 0.0, 1.0) // initialize speed
-        println("${VehicleUtils.vehiclesData}")
+        VehicleUtils.vehicleVelocities[plr.name] = Vector(1.0, 0.0, 1.0) // initialize speed
+        //println("${VehicleUtils.vehiclesData}")
     }
 
 
