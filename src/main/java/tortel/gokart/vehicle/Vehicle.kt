@@ -1,4 +1,4 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit

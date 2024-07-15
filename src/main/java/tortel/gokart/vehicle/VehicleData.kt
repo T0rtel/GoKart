@@ -1,4 +1,4 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
 public object VehicleData {
 

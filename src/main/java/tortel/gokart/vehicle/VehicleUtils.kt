@@ -1,4 +1,4 @@
-package tortel.gokart.Vehicle
+package tortel.gokart.vehicle
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.ArmorStand
