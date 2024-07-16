@@ -7,6 +7,7 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
+import tortel.gokart.Vehicle.VehicleUtils
 import java.util.*
 
 object Vehicle {
@@ -68,9 +69,9 @@ object Vehicle {
     }
 
     //function to save all the data into the maps in VehicleUtils.kt
-    fun createVehicleData(plr : Player, list : List<Any>) {
+    private fun createVehicleData(plr : Player, list : List<Any>) {
         VehicleUtils.vehiclesData[plr.name] = list
-        VehicleUtils.vehicleVelocities[plr.name] = Vector(1.0, 0.0, 1.0) // initialize speed
+//TODO        VehicleUtils.vehicleVelocities[plr.name] = Vector(1.0, 0.0, 1.0) // initialize speed
         //println("${VehicleUtils.vehiclesData}")
     }
 

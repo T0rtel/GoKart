@@ -8,11 +8,13 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
+import tortel.gokart.Vehicle.VehicleUtils
 import tortel.gokart.commands.RideCommand
 import tortel.gokart.listeners.VehicleInput
 import tortel.gokart.tabCompleters.RideCommandTabCompleter
 import tortel.gokart.vehicle.VehicleConfig
-import tortel.gokart.vehicle.VehicleUtils
+import tortel.gokart.vehicle.math.BUMath
+
 import java.io.File
 
 
@@ -30,7 +32,6 @@ class Main : JavaPlugin() {
     override fun onEnable() {
         protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager!!.addPacketListener(VehicleInput(this))
-
         dataFolderDir = dataFolder
         instance = this
 
@@ -89,8 +90,7 @@ class Main : JavaPlugin() {
                         }
 
                          */
-                        VehicleUtils.vehicleVelocities[it.name] = Vector() // this should fix it ig(hopefully)
-//e
+//TODO                        VehicleUtils.vehicleVelocities[it.name] = Vector() // this should fix it ig(hopefully)
                     }
 
                     VehicleUtils.playersAccelerating[it] = false

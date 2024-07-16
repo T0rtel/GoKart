@@ -1,15 +1,19 @@
-package tortel.gokart.vehicle
+package tortel.gokart.Vehicle
 
 import org.bukkit.ChatColor
 import org.bukkit.entity.ArmorStand
 
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
+import tortel.gokart.vehicle.Vehicle
+import tortel.gokart.vehicle.VehicleConfig
+import kotlin.math.sqrt
+import kotlin.time.times
 
 object VehicleUtils {
     var licenseplates : List<String> = listOf<String>()
     val vehiclesData : HashMap<String, List<Any>> = HashMap()
-    val vehicleVelocities : HashMap<String, Vector> = HashMap()
+    val vehiclesSpeeds : HashMap<String, Vector> = HashMap()
     val playersAccelerating : HashMap<Player, Boolean> = HashMap()
 
     fun spawnVehicle(plr : Player){ // in here we initialize the vehicle properties and spawn the armor stand(for now)
@@ -26,7 +30,7 @@ object VehicleUtils {
         )
 
          */
-        //the createvehicle function, which takes all the values and creates an armor stand
+
         Vehicle.CreateVehicle(
             plr,
             plr.uniqueId,
@@ -56,7 +60,7 @@ object VehicleUtils {
         var DragForce : Vector? = null
         var RollingResForce : Vector? = null
         var LongitudinalForce : Vector? = null
-        var velocity : Vector = vehicleVelocities[plr.name]!!
+        var velocity : Vector = vehiclesSpeeds[plr.name]!!
         var speed = Math.sqrt(velocity.x *velocity.x + velocity.z*velocity.z)
 
         println("old velocity X: ${velocity.x}")
@@ -71,44 +75,47 @@ object VehicleUtils {
 
         val VehiclePos = Vehicle.location
         //traction force is the force applied when player moves, its just engine force applied
-        TractionForce = getTractionForce(plrDir, EngineForce)
+        TractionForce = Vector(plrDir.x, 0.0, plrDir.z).multiply(Vector(EngineForce, 0.0, EngineForce))
         //drag force is the drag... just a negative value
-        DragForce = getDragForce(DragConstant, velocity, speed)
+        DragForce = Vector(-DragConstant * velocity.x * speed,0.0, -DragConstant * velocity.z * speed)
         //rolling resistance force is rolling resistance, which (is supposed to) be the friction of the tire and the ground
-        RollingResForce = getRollingResForce(RollingResConstant, velocity)
+        RollingResForce = Vector(-RollingResConstant * velocity.x,0.0, -RollingResConstant * velocity.z)
         //the longitudinal force is the force that acts longitudinally on the kart. (moves in front or back)
-        LongitudinalForce = getLongitudinalForce(TractionForce, DragForce, RollingResForce)
+        LongitudinalForce =
+        Vector(TractionForce.x  + RollingResForce.x + DragForce.x , 0.0, TractionForce.z + RollingResForce.z + DragForce.z)
 
         val acceleration = Vector(LongitudinalForce.x / Mass, 0.0, LongitudinalForce.z / Mass)
         velocity = Vector(velocity.x + (DeltaTime * acceleration.x), 0.0, velocity.z +(DeltaTime * acceleration.z))
 
-        vehicleVelocities[plr.name] = velocity // every tick we are saving the last velocity, and when the player stops holding W for ex, it resets it(that is in Main)
+        vehiclesSpeeds[plr.name] = velocity // every tick we are saving the last velocity, and when the player stops holding W for ex, it resets it(that is in Main)
 
         //Vehicle.teleport(VehiclePos.add(velocity))
         Vehicle.velocity = velocity
-    }
+        println("VEL: $velocity || ACC: $acceleration")
+        println("TRACTION: $TractionForce")
+        println("DRAG FORCE: $DragForce")
+        println("RollingResistance: $RollingResForce")
+        println("LongitudinalForce: $LongitudinalForce")
 
-    object MathLib{
-        object oldArticle{
 
+        /*
+        playersAccelerating[plr] = true
+        val vehicleData = vehiclesData.get(plr.name)
+        val vehicleObject : ArmorStand = vehicleData?.last as ArmorStand
+        val vehicleAccelerationSpeed : Double = vehicleData.get(2) as Double
+        val vehicleMaxSpeed = vehicleData[3] as Double
+        val loc = plr.location
+        val oldspeed =  vehiclesSpeeds[plr.name]!!
+        if (oldspeed < vehicleMaxSpeed){
+            vehiclesSpeeds[plr.name] = (oldspeed + vehicleAccelerationSpeed)
+            if (vehiclesSpeeds[plr.name]!! > vehicleMaxSpeed) { // so it doesn't go above the limit ->
+                vehiclesSpeeds[plr.name] = vehicleMaxSpeed
+            }
         }
+        val speed = vehiclesSpeeds[plr.name] as Double
+        vehicleObject.velocity = Vector(loc.direction.multiply(speed).x, -0.8, loc.direction.multiply(speed).z)
 
-        object newArticle{
-
-        }
-    }
-
-    private fun getLongitudinalForce(TractionForce : Vector, RollingResForce: Vector, DragForce: Vector) : Vector{
-        return  Vector(TractionForce.x  + RollingResForce.x + DragForce.x , 0.0, TractionForce.z + RollingResForce.z + DragForce.z)
-    }
-    private fun getTractionForce(plrDir : Vector, EngineForce : Double): Vector {
-        return Vector(plrDir.x, 0.0, plrDir.z).multiply(Vector(EngineForce, 0.0, EngineForce))
-    }
-    private fun getDragForce(DragConstant : Double, velocity : Vector, speed : Double): Vector {
-        return Vector(-DragConstant * velocity.x * speed,0.0, -DragConstant * velocity.z * speed)
-    }
-    private fun getRollingResForce(RollingResConstant : Double, velocity: Vector): Vector{
-        return Vector(-RollingResConstant * velocity.x,0.0, -RollingResConstant * velocity.z)
+         */
     }
 
     fun moveForward(plr : Player){

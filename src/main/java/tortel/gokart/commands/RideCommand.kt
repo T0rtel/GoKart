@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import tortel.gokart.vehicle.VehicleUtils
+import tortel.gokart.Vehicle.VehicleUtils
 
 class RideCommand : CommandExecutor {
 
@@ -56,7 +56,6 @@ class RideCommand : CommandExecutor {
     private fun handleStop(player: Player): Result {
         // Add your custom stop logic here
         player.velocity = Vector(0.0,100.0,0.0)
-
 
         player.sendMessage(Component.text("Stop logic executed").color(NamedTextColor.GREEN))
         return Result("Riding stopped!", NamedTextColor.RED)

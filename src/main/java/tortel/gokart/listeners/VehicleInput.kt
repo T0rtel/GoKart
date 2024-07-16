@@ -4,7 +4,7 @@ import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.events.PacketAdapter
 import com.comphenix.protocol.events.PacketEvent
 import org.bukkit.plugin.Plugin
-import tortel.gokart.vehicle.VehicleUtils
+import tortel.gokart.Vehicle.VehicleUtils
 
 
 class VehicleInput(plugin : Plugin) : PacketAdapter(params().plugin(plugin).types(PacketType.Play.Client.STEER_VEHICLE)) {
@@ -14,14 +14,14 @@ class VehicleInput(plugin : Plugin) : PacketAdapter(params().plugin(plugin).type
         if (event.packetType == PacketType.Play.Client.STEER_VEHICLE){
             val plr = event.player
             val packet = event.packet
-            val frontandback = event.packet.float.read(1)
+            val frontAndBack = event.packet.float.read(1)
             val sides = event.packet.float.read(0)
             //println("Packet received: ${event.packet.float.read(0)} ${event.packet.float.read(1)}")
-            if (frontandback == 0.98f){
+            if (frontAndBack == 0.98f){
                 //println("W")
                 VehicleUtils.moveForward(plr)
             }
-            if (frontandback == -0.98f){
+            if (frontAndBack == -0.98f){
                 println("S")
                 VehicleUtils.moveBackward(plr)
             }
