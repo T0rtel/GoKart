@@ -25,7 +25,7 @@ class Main : JavaPlugin() {
             private set
         var instance : Plugin? = null
             private set
-    }
+    }//test
 
     override fun onEnable() {
         protocolManager = ProtocolLibrary.getProtocolManager();
