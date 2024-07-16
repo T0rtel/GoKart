@@ -69,7 +69,7 @@ class Main : JavaPlugin() {
         Bukkit.getWorlds()[0].entities.forEach {
             if (it.type == EntityType.ARMOR_STAND){
                 it.remove()
-            }
+            }//e
         }
     }
 
