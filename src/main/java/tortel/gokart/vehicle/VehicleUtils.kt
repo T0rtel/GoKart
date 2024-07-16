@@ -71,14 +71,13 @@ object VehicleUtils {
 
         val VehiclePos = Vehicle.location
         //traction force is the force applied when player moves, its just engine force applied
-        TractionForce = Vector(plrDir.x, 0.0, plrDir.z).multiply(Vector(EngineForce, 0.0, EngineForce))
+        TractionForce = getTractionForce(plrDir, EngineForce)
         //drag force is the drag... just a negative value
-        DragForce = Vector(-DragConstant * velocity.x * speed,0.0, -DragConstant * velocity.z * speed)
+        DragForce = getDragForce(DragConstant, velocity, speed)
         //rolling resistance force is rolling resistance, which (is supposed to) be the friction of the tire and the ground
-        RollingResForce = Vector(-RollingResConstant * velocity.x,0.0, -RollingResConstant * velocity.z)
+        RollingResForce = getRollingResForce(RollingResConstant, velocity)
         //the longitudinal force is the force that acts longitudinally on the kart. (moves in front or back)
-        LongitudinalForce =
-        Vector(TractionForce.x  + RollingResForce.x + DragForce.x , 0.0, TractionForce.z + RollingResForce.z + DragForce.z)
+        LongitudinalForce = getLongitudinalForce(TractionForce, DragForce, RollingResForce)
 
         val acceleration = Vector(LongitudinalForce.x / Mass, 0.0, LongitudinalForce.z / Mass)
         velocity = Vector(velocity.x + (DeltaTime * acceleration.x), 0.0, velocity.z +(DeltaTime * acceleration.z))
@@ -87,31 +86,29 @@ object VehicleUtils {
 
         //Vehicle.teleport(VehiclePos.add(velocity))
         Vehicle.velocity = velocity
-        println("VEL: $velocity || ACC: $acceleration")
-        println("TRACTION: $TractionForce")
-        println("DRAG FORCE: $DragForce")
-        println("RollingResistance: $RollingResForce")
-        println("LongitudinalForce: $LongitudinalForce")
+    }
 
+    object MathLib{
+        object oldArticle{
 
-        /*
-        playersAccelerating[plr] = true
-        val vehicleData = vehiclesData.get(plr.name)
-        val vehicleObject : ArmorStand = vehicleData?.last as ArmorStand
-        val vehicleAccelerationSpeed : Double = vehicleData.get(2) as Double
-        val vehicleMaxSpeed = vehicleData[3] as Double
-        val loc = plr.location
-        val oldspeed =  vehiclesSpeeds[plr.name]!!
-        if (oldspeed < vehicleMaxSpeed){
-            vehiclesSpeeds[plr.name] = (oldspeed + vehicleAccelerationSpeed)
-            if (vehiclesSpeeds[plr.name]!! > vehicleMaxSpeed) { // so it doesn't go above the limit ->
-                vehiclesSpeeds[plr.name] = vehicleMaxSpeed
-            }
         }
-        val speed = vehiclesSpeeds[plr.name] as Double
-        vehicleObject.velocity = Vector(loc.direction.multiply(speed).x, -0.8, loc.direction.multiply(speed).z)
 
-         */
+        object newArticle{
+
+        }
+    }
+
+    private fun getLongitudinalForce(TractionForce : Vector, RollingResForce: Vector, DragForce: Vector) : Vector{
+        return  Vector(TractionForce.x  + RollingResForce.x + DragForce.x , 0.0, TractionForce.z + RollingResForce.z + DragForce.z)
+    }
+    private fun getTractionForce(plrDir : Vector, EngineForce : Double): Vector {
+        return Vector(plrDir.x, 0.0, plrDir.z).multiply(Vector(EngineForce, 0.0, EngineForce))
+    }
+    private fun getDragForce(DragConstant : Double, velocity : Vector, speed : Double): Vector {
+        return Vector(-DragConstant * velocity.x * speed,0.0, -DragConstant * velocity.z * speed)
+    }
+    private fun getRollingResForce(RollingResConstant : Double, velocity: Vector): Vector{
+        return Vector(-RollingResConstant * velocity.x,0.0, -RollingResConstant * velocity.z)
     }
 
     fun moveForward(plr : Player){
