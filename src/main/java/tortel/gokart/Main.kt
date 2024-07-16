@@ -69,7 +69,7 @@ class Main : JavaPlugin() {
         Bukkit.getWorlds()[0].entities.forEach {
             if (it.type == EntityType.ARMOR_STAND){
                 it.remove()
-            }
+            }//e
         }
     }
 
@@ -89,7 +89,7 @@ class Main : JavaPlugin() {
                         }
 
                          */
-                        VehicleUtils.vehiclesSpeeds[it.name] = Vector() // this should fix it ig(hopefully)
+                        VehicleUtils.vehicleVelocities[it.name] = Vector() // this should fix it ig(hopefully)
 
                     }
 
