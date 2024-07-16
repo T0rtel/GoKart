@@ -89,7 +89,7 @@ class Main : JavaPlugin() {
                         }
 
                          */
-                        VehicleUtils.vehiclesSpeeds[it.name] = Vector() // this should fix it ig(hopefully)
+                        VehicleUtils.vehicleVelocities[it.name] = Vector() // this should fix it ig(hopefully)
 
                     }
 
