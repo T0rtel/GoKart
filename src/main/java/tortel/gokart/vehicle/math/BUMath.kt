@@ -262,8 +262,12 @@ class BUMath {
          * @param rpm The engine's revolutions per minute (RPM).
          * @return The angular velocity of the engine in radians per second (rad/s).
          */
-        fun angularVelocity(rpm: Int): Double {
-            return (2 * PI * rpm) / 60
+        fun angularVelocity(rpm: Int): Vector {
+            return Vector((2 * PI * rpm) / 60, 0.0, (2 * PI * rpm) / 60) // returns in radians
+        }
+
+        fun radiansToAngles(vel : Vector): Vector {
+            return Vector((vel.x * 180) / PI, 0.0, (vel.z * 180) / PI)
         }
 
         /**
@@ -288,8 +292,8 @@ class BUMath {
          * @param g The final drive ratio.
          * @return The torque applied to the wheels in Newton-meters (Nm).
          */
-        fun tw(te: Double, gk: Double, g: Double): Double {
-            return te * gk * g
+        fun tw(te: Double, gk: Double, g: Double): Vector { // wheel torque
+            return Vector(te * gk * g, 0.0, te * gk * g)
         }
 
         /**
