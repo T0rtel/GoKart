@@ -1,9 +1,14 @@
 package tortel.gokart.vehicle.math
 
+import org.bukkit.util.Vector
 import kotlin.math.*
 
 class BUMath {
     companion object {
+
+        fun speed(velocity: Vector) : Double{
+            return sqrt(velocity.x * velocity.x + velocity.z * velocity.z)
+        }
 
         //Chapter 3: Forces
         /**
@@ -27,8 +32,8 @@ class BUMath {
          *
          * @return The aerodynamic drag force acting on the car.
          * */
-        fun fDrag(cDrag: Double, velocity: Double): Double {
-            return -cDrag * velocity * abs(velocity)
+        fun fDrag(cDrag: Double, velocity: Vector, speed : Double): Vector {
+            return Vector(-cDrag * velocity.x * speed, 0.0, -cDrag * velocity.z * speed)
         }
 
 
@@ -52,8 +57,8 @@ class BUMath {
          * @param velocity The velocity vector of the car in meters per second (m/s).
          * @return The rolling resistance force acting on the car in Newtons (N).
          */
-        fun fRR(cRr: Double, velocity: Double): Double {
-            return -cRr * velocity
+        fun fRR(cRr: Double, velocity: Vector): Vector {
+            return Vector(-cRr * velocity.x, 0.0, -cRr * velocity.z)
         }
 
         /**
@@ -78,8 +83,8 @@ class BUMath {
          * @param gravity The acceleration due to gravity, default is 9.81 m/s².
          * @return The gravitational force component acting on the car in Newtons (N).
          */
-        fun fG(mass: Double, angle: Double, gravity: Double = 9.81): Double {
-            return mass * gravity * sin(angle)
+        fun fG(mass: Double, angle: Double, gravity: Double = 9.81): Vector {
+            return Vector(mass * gravity * sin(angle), 0.0, mass * gravity * sin(angle))
         }
 
         /**
@@ -104,8 +109,8 @@ class BUMath {
          * @param rWheel The radius of the wheel in meters (m).
          * @return The traction force applied to the wheels in Newtons (N).
          */
-        fun fTraction(tWheel: Double, rWheel: Double): Double {
-            return tWheel / rWheel
+        fun fTraction(tWheel: Double, rWheel: Double): Vector {
+            return Vector(tWheel / rWheel, 0.0 , tWheel / rWheel)
         }
 
         /**
@@ -133,8 +138,8 @@ class BUMath {
          * @param fG The gravitational force component acting on the car in Newtons (N).
          * @return The total longitudinal force acting on the car in Newtons (N).
          */
-        fun fLong(fTraction: Double, fDrag: Double, fRR: Double, fG: Double): Double {
-            return fTraction + fDrag + fRR + fG
+        fun fLong(fTraction: Vector, fDrag: Vector, fRR: Vector, fG: Vector): Vector {
+            return Vector(fTraction.x + fDrag.x + fRR.x + fG.x, 0.0 ,fTraction.z + fDrag.z + fRR.z + fG.z)
         }
 
         /**
@@ -157,8 +162,8 @@ class BUMath {
          * @param cBraking The braking coefficient, a constant representing the braking force per unit vector.
          * @return The braking force acting on the car in Newtons (N).
          */
-        fun fBraking(u: Double, cBraking: Double): Double {
-            return -u * cBraking
+        fun fBraking(u: Vector, cBraking: Double):Vector {
+            return Vector(-u.x * cBraking, 0.0,-u.z * cBraking)
         }
 
         /**
@@ -180,8 +185,8 @@ class BUMath {
          * @param m The mass of the car in kilograms (kg).
          * @return The acceleration of the car in meters per second squared (m/s²).
          */
-        fun acceleration(f: Double, m: Double): Double {
-            return f / m
+        fun acceleration(f: Double, m: Double): Vector {
+            return Vector(f / m, 0.0, f / m)
         }
 
         /**
@@ -205,8 +210,8 @@ class BUMath {
          * @param a The acceleration of the car in meters per second squared (m/s²).
          * @return The updated velocity of the car in meters per second (m/s).
          */
-        fun vNew(v: Double, dt: Double, a: Double): Double {
-            return v + dt * a
+        fun vNew(v: Vector, dt: Double, a: Double): Vector {
+            return Vector(v.x + dt * a, 0.0, v.z + dt * a)
         }
 
         /**
@@ -230,9 +235,13 @@ class BUMath {
          * @param velocity The velocity of the car in meters per second (m/s).
          * @return The updated position of the car in meters (m).
          */
+        /*
+        TODO: NOT NEEDED SINCE WE ADD THE VELOCITY AND NOT UPDATE THE POSITION
         fun pNew(p: Double, dt: Double, velocity: Double): Double {
             return p + dt * velocity
         }
+
+         */
 
         //Chapter 4: Engine Torque
         /**
